@@ -18,6 +18,7 @@ using System.Drawing.Design;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.RibbonHelpers;
+using System.Security.Permissions;
 
 namespace System.Windows.Forms
 {
@@ -244,6 +245,7 @@ namespace System.Windows.Forms
         /// </summary>
         protected override CreateParams CreateParams
         {
+            [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
             get
             {
                 CreateParams cp = base.CreateParams;

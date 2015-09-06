@@ -97,7 +97,7 @@ namespace System.Windows.Forms
         public RibbonButton(string text)
             : this()
         {
-            Text = text;
+            base.Text = text;
         }
 
         public RibbonButton(Image smallImage)

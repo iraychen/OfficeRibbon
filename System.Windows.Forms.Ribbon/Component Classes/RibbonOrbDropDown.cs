@@ -20,7 +20,7 @@ using System.Windows.Forms.RibbonHelpers;
 namespace System.Windows.Forms
 {
 	public class RibbonOrbDropDown
-		 : RibbonPopup
+		 : RibbonPopup, IDisposable
    {
       #region const
 
@@ -75,18 +75,6 @@ namespace System.Windows.Forms
 			//{
 			//   _keyboardHook = new GlobalHook(GlobalHook.HookTypes.Keyboard);
 			//   _keyboardHook.KeyUp += new KeyEventHandler(_keyboardHook_KeyUp);
-			//}
-		}
-
-		~RibbonOrbDropDown()
-		{
-			if (_sensor != null)
-			{
-				_sensor.Dispose();
-			}
-			//if (_keyboardHook != null)
-			//{
-			//   _keyboardHook.Dispose();
 			//}
 		}
 
@@ -910,5 +898,23 @@ namespace System.Windows.Forms
 		}
 		#endregion
 
-	}
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                if (_sensor != null)
+                {
+                    _sensor.Dispose();
+                    _sensor = null;
+                }
+                //if (_keyboardHook != null)
+                //{
+                //   _keyboardHook.Dispose();
+                //}
+            }
+        }
+
+   }
 }

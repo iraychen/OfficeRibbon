@@ -80,7 +80,7 @@ namespace System.Windows.Forms
                 return;
             }
 
-            if (WinApi.IsGlassEnabled)
+            if (NativeMethods.IsGlassEnabled)
                 Form.Invalidate();
             else  // on XP systems Invalidate is not sufficient in case the Form contains a control with DockStyle.Fill
                 Form.Refresh();
@@ -175,9 +175,9 @@ namespace System.Windows.Forms
         {
             if (DesignMode) return;
 
-            if (WinApi.IsGlassEnabled)
+            if (NativeMethods.IsGlassEnabled)
             {
-                WinApi.FillForGlass(e.Graphics, new Rectangle(0, 0, Form.Width, Form.Height));
+                NativeMethods.FillForGlass(e.Graphics, new Rectangle(0, 0, Form.Width, Form.Height));
 
                 using (Brush b = new SolidBrush(Form.BackColor))
                 {
@@ -250,15 +250,15 @@ namespace System.Windows.Forms
         protected virtual void Form_Activated(object sender, EventArgs e)
         {
             if (DesignMode) return;
-            WinApi.MARGINS dwmMargins = new WinApi.MARGINS(
+            NativeMethods.MARGINS dwmMargins = new NativeMethods.MARGINS(
                 Margins.Left,
                 Margins.Right,
                 Margins.Bottom + Ribbon.CaptionBarHeight,
                 Margins.Bottom);
 
-            if (WinApi.IsVista && !_frameExtended)
+            if (NativeMethods.IsVista && !_frameExtended)
             {
-                WinApi.DwmExtendFrameIntoClientArea(Form.Handle, ref dwmMargins);
+                NativeMethods.DwmExtendFrameIntoClientArea(Form.Handle, ref dwmMargins);
                 _frameExtended = true;
             }
 
@@ -275,11 +275,11 @@ namespace System.Windows.Forms
 
             bool handled = false;
 
-            if (WinApi.IsVista)
+            if (NativeMethods.IsVista)
             {
                 #region Checks if DWM processes the message
                 IntPtr result;
-                int dwmHandled = WinApi.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out result);
+                int dwmHandled = NativeMethods.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out result);
 
                 if (dwmHandled == 1)
                 {
@@ -289,17 +289,17 @@ namespace System.Windows.Forms
                 #endregion
             }
 
-            //if (m.Msg == WinApi.WM_NCLBUTTONUP)
+            //if (m.Msg == NativeMethods.WM_NCLBUTTONUP)
             //{
             //    UpdateRibbonConditions();
             //}
 
             if (!handled)
             {
-                if (m.Msg == WinApi.WM_NCCALCSIZE && (int)m.WParam == 1) //0x83
+                if (m.Msg == NativeMethods.WM_NCCALCSIZE && (int)m.WParam == 1) //0x83
                 {
                     #region Catch the margins of what the client area would be
-                    WinApi.NCCALCSIZE_PARAMS nccsp = (WinApi.NCCALCSIZE_PARAMS)Marshal.PtrToStructure(m.LParam, typeof(WinApi.NCCALCSIZE_PARAMS));
+                    NativeMethods.NCCALCSIZE_PARAMS nccsp = (NativeMethods.NCCALCSIZE_PARAMS)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.NCCALCSIZE_PARAMS));
 
                     if (!MarginsChecked)
                     {
@@ -319,7 +319,7 @@ namespace System.Windows.Forms
                     //               is also visible - not desired
                     //             * setting the client area to some other value, e.g. descrease the size of the client area by one pixel will
                     //               cause windows to render the caption bar a glass - not correct but the lesser of the two evils
-                    if (Screen.AllScreens.Length > 1 && WinApi.IsGlassEnabled)
+                    if (Screen.AllScreens.Length > 1 && NativeMethods.IsGlassEnabled)
                         nccsp.rect0.Bottom -= 1;
                     #endregion
 
@@ -329,25 +329,25 @@ namespace System.Windows.Forms
                     handled = true;
                     #endregion
                 }
-                else if (m.Msg == WinApi.WM_NCACTIVATE && Ribbon != null && Ribbon.ActualBorderMode == RibbonWindowMode.NonClientAreaCustomDrawn)
+                else if (m.Msg == NativeMethods.WM_NCACTIVATE && Ribbon != null && Ribbon.ActualBorderMode == RibbonWindowMode.NonClientAreaCustomDrawn)
                 {
                     Ribbon.Invalidate(); handled = true;
                     if (m.WParam == IntPtr.Zero)  // if could be removed because result is ignored if WParam is TRUE
                         m.Result = (IntPtr)1;
                 }
-                else if ((m.Msg == WinApi.WM_ACTIVATE || m.Msg == WinApi.WM_PAINT) && WinApi.IsVista) //0x06 - 0x000F
+                else if ((m.Msg == NativeMethods.WM_ACTIVATE || m.Msg == NativeMethods.WM_PAINT) && NativeMethods.IsVista) //0x06 - 0x000F
                 {
                     m.Result = (IntPtr)1; handled = false;
                 }
-                else if (m.Msg == WinApi.WM_NCHITTEST && (int)m.Result == 0) //0x84
+                else if (m.Msg == NativeMethods.WM_NCHITTEST && (int)m.Result == 0) //0x84
                 {
-                    m.Result = new IntPtr(Convert.ToInt32(NonClientHitTest(new Point(WinApi.LoWord((int)m.LParam), WinApi.HiWord((int)m.LParam)))));
+                    m.Result = new IntPtr(Convert.ToInt32(NonClientHitTest(new Point(NativeMethods.LoWord((int)m.LParam), NativeMethods.HiWord((int)m.LParam)))));
                     handled = true;
                 }
-                else if (m.Msg == WinApi.WM_SYSCOMMAND)
+                else if (m.Msg == NativeMethods.WM_SYSCOMMAND)
                 {
                     uint param = IntPtr.Size == 4 ? (uint)m.WParam.ToInt32() : (uint)m.WParam.ToInt64();
-                    if ((param & 0xFFF0) == WinApi.SC_RESTORE)
+                    if ((param & 0xFFF0) == NativeMethods.SC_RESTORE)
                     {
                         Form.Size = _storeSize;
                     }
@@ -356,7 +356,7 @@ namespace System.Windows.Forms
                         _storeSize = Form.Size;
                     }
                 }
-                else if (m.Msg == WinApi.WM_WINDOWPOSCHANGING || m.Msg == WinApi.WM_WINDOWPOSCHANGED)  // needed to update the title of MDI parent (at least)
+                else if (m.Msg == NativeMethods.WM_WINDOWPOSCHANGING || m.Msg == NativeMethods.WM_WINDOWPOSCHANGED)  // needed to update the title of MDI parent (at least)
                 {
                     Ribbon.Invalidate();
                 }

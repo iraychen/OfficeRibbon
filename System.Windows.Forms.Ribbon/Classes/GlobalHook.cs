@@ -278,7 +278,7 @@ namespace System.Windows.Forms.RibbonHelpers
         {
             if (code < 0)
             {
-                return WinApi.CallNextHookEx(Handle, code, wParam, lParam);
+                return NativeMethods.CallNextHookEx(Handle, code, wParam, lParam);
             }
             else
             {
@@ -303,35 +303,35 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <returns></returns>
         private int KeyboardProc(int code, IntPtr wParam, IntPtr lParam)
         {
-            WinApi.KeyboardLLHookStruct hookStruct = (WinApi.KeyboardLLHookStruct)Marshal.PtrToStructure(lParam, typeof(WinApi.KeyboardLLHookStruct));
+            NativeMethods.KeyboardLLHookStruct hookStruct = (NativeMethods.KeyboardLLHookStruct)Marshal.PtrToStructure(lParam, typeof(NativeMethods.KeyboardLLHookStruct));
 
             int msg = wParam.ToInt32();
             bool handled = false;
 
-            if (msg == WinApi.WM_KEYDOWN || msg == WinApi.WM_SYSKEYDOWN)
+            if (msg == NativeMethods.WM_KEYDOWN || msg == NativeMethods.WM_SYSKEYDOWN)
             {
                 KeyEventArgs e = new KeyEventArgs((Keys)hookStruct.vkCode);
                 OnKeyDown(e);
                 handled = e.Handled;
             }
-            else if (msg == WinApi.WM_KEYUP || msg == WinApi.WM_SYSKEYUP)
+            else if (msg == NativeMethods.WM_KEYUP || msg == NativeMethods.WM_SYSKEYUP)
             {
                 KeyEventArgs e = new KeyEventArgs((Keys)hookStruct.vkCode);
                 OnKeyUp(e);
                 handled = e.Handled;
             }
 
-            if (msg == WinApi.WM_KEYDOWN && KeyPress != null)
+            if (msg == NativeMethods.WM_KEYDOWN && KeyPress != null)
             {
                 byte[] keyState = new byte[256];
                 byte[] buffer = new byte[2];
-                WinApi.GetKeyboardState(keyState);
-                int conversion = WinApi.ToAscii(hookStruct.vkCode, hookStruct.scanCode, keyState, buffer, hookStruct.flags);
+                NativeMethods.GetKeyboardState(keyState);
+                int conversion = NativeMethods.ToAscii(hookStruct.vkCode, hookStruct.scanCode, keyState, buffer, hookStruct.flags);
 
                 if (conversion == 1 || conversion == 2)
                 {
-                    bool shift = (WinApi.GetKeyState(WinApi.VK_SHIFT) & 0x80) == 0x80;
-                    bool capital = WinApi.GetKeyState(WinApi.VK_CAPITAL) != 0;
+                    bool shift = (NativeMethods.GetKeyState(NativeMethods.VK_SHIFT) & 0x80) == 0x80;
+                    bool capital = NativeMethods.GetKeyState(NativeMethods.VK_CAPITAL) != 0;
                     char c = (char)buffer[0];
                     if ((shift ^ capital) && Char.IsLetter(c))
                     {
@@ -344,7 +344,7 @@ namespace System.Windows.Forms.RibbonHelpers
             }
 
 
-            return handled ? 1 : WinApi.CallNextHookEx(Handle, code, wParam, lParam);
+            return handled ? 1 : NativeMethods.CallNextHookEx(Handle, code, wParam, lParam);
         }
 
         /// <summary>
@@ -356,72 +356,72 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <returns></returns>
         private int MouseProc(int code, IntPtr wParam, IntPtr lParam)
         {
-            WinApi.MouseLLHookStruct hookStruct = (WinApi.MouseLLHookStruct)Marshal.PtrToStructure(lParam, typeof(WinApi.MouseLLHookStruct));
+            NativeMethods.MouseLLHookStruct hookStruct = (NativeMethods.MouseLLHookStruct)Marshal.PtrToStructure(lParam, typeof(NativeMethods.MouseLLHookStruct));
 
             int msg = wParam.ToInt32();
             int x = hookStruct.pt.x;
             int y = hookStruct.pt.y;
             int delta = (short)((hookStruct.mouseData >> 16) & 0xffff);
             
-            if (msg == WinApi.WM_MOUSEWHEEL)
+            if (msg == NativeMethods.WM_MOUSEWHEEL)
             {
                 OnMouseWheel(new MouseEventArgs(MouseButtons.None, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_MOUSEMOVE)
+            else if (msg == NativeMethods.WM_MOUSEMOVE)
             {
                 OnMouseMove(new MouseEventArgs(MouseButtons.None, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_LBUTTONDBLCLK)
+            else if (msg == NativeMethods.WM_LBUTTONDBLCLK)
             {
                 OnMouseDoubleClick(new MouseEventArgs(MouseButtons.Left, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_LBUTTONDOWN)
+            else if (msg == NativeMethods.WM_LBUTTONDOWN)
             {
                 OnMouseDown(new MouseEventArgs(MouseButtons.Left, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_LBUTTONUP)
+            else if (msg == NativeMethods.WM_LBUTTONUP)
             {
                 OnMouseUp(new MouseEventArgs(MouseButtons.Left, 0, x, y, delta));
                 OnMouseClick(new MouseEventArgs(MouseButtons.Left, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_MBUTTONDBLCLK)
+            else if (msg == NativeMethods.WM_MBUTTONDBLCLK)
             {
                 OnMouseDoubleClick(new MouseEventArgs(MouseButtons.Middle, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_MBUTTONDOWN)
+            else if (msg == NativeMethods.WM_MBUTTONDOWN)
             {
                 OnMouseDown(new MouseEventArgs(MouseButtons.Middle, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_MBUTTONUP)
+            else if (msg == NativeMethods.WM_MBUTTONUP)
             {
                 OnMouseUp(new MouseEventArgs(MouseButtons.Middle, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_RBUTTONDBLCLK)
+            else if (msg == NativeMethods.WM_RBUTTONDBLCLK)
             {
                 OnMouseDoubleClick(new MouseEventArgs(MouseButtons.Right, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_RBUTTONDOWN)
+            else if (msg == NativeMethods.WM_RBUTTONDOWN)
             {
                 OnMouseDown(new MouseEventArgs(MouseButtons.Right, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_RBUTTONUP)
+            else if (msg == NativeMethods.WM_RBUTTONUP)
             {
                 OnMouseUp(new MouseEventArgs(MouseButtons.Right, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_XBUTTONDBLCLK)
+            else if (msg == NativeMethods.WM_XBUTTONDBLCLK)
             {
                 OnMouseDoubleClick(new MouseEventArgs(MouseButtons.XButton1, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_XBUTTONDOWN)
+            else if (msg == NativeMethods.WM_XBUTTONDOWN)
             {
                 OnMouseDown(new MouseEventArgs(MouseButtons.XButton1, 0, x, y, delta));
             }
-            else if (msg == WinApi.WM_XBUTTONUP)
+            else if (msg == NativeMethods.WM_XBUTTONUP)
             {
                 OnMouseUp(new MouseEventArgs(MouseButtons.XButton1, 0, x, y, delta));
             }
             
-            return WinApi.CallNextHookEx(Handle, code, wParam, lParam);
+            return NativeMethods.CallNextHookEx(Handle, code, wParam, lParam);
         }
 
         /// <summary>
@@ -438,10 +438,10 @@ namespace System.Windows.Forms.RibbonHelpers
             switch (HookType)
             {
                 case HookTypes.Mouse:
-                    htype = WinApi.WH_MOUSE_LL;
+                    htype = NativeMethods.WH_MOUSE_LL;
                     break;
                 case HookTypes.Keyboard:
-                    htype = WinApi.WH_KEYBOARD_LL;
+                    htype = NativeMethods.WH_KEYBOARD_LL;
                     break;
                 default:
                     throw new Exception("HookType is not supported");
@@ -453,8 +453,8 @@ namespace System.Windows.Forms.RibbonHelpers
 
             /// Hook
             /// Ed Obeda suggestion for .net 4.0
-            //_hHook = WinApi.SetWindowsHookEx(htype, _HookProc, Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().GetModules()[0]), 0);
-            _hHook = WinApi.SetWindowsHookEx(htype, _HookProc, System.Diagnostics.Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+            //_hHook = NativeMethods.SetWindowsHookEx(htype, _HookProc, Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().GetModules()[0]), 0);
+            _hHook = NativeMethods.SetWindowsHookEx(htype, _HookProc, System.Diagnostics.Process.GetCurrentProcess().MainModule.BaseAddress, 0);
             
             /// Error check
             if (Handle == 0) throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -467,7 +467,7 @@ namespace System.Windows.Forms.RibbonHelpers
         {
             if (Handle != 0)
             {
-                //bool ret = WinApi.UnhookWindowsHookEx(Handle);
+                //bool ret = NativeMethods.UnhookWindowsHookEx(Handle);
 
                 //if (ret == false)
                 //    throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -476,7 +476,7 @@ namespace System.Windows.Forms.RibbonHelpers
                 try
                 {
                     //Fix submitted by Simon Dallmair to handle win32 error when closing the form in vista
-                    if (!WinApi.UnhookWindowsHookEx(Handle))
+                    if (!NativeMethods.UnhookWindowsHookEx(Handle))
                     {
                         Win32Exception ex = new Win32Exception(Marshal.GetLastWin32Error());
                         if (ex.NativeErrorCode != 0)

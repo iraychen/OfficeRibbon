@@ -248,9 +248,9 @@ namespace System.Windows.Forms
             {
                 CreateParams cp = base.CreateParams;
 
-                if (WinApi.IsXP)
+                if (NativeMethods.IsXP)
                 {
-                    cp.ClassStyle |= WinApi.CS_DROPSHADOW;
+                    cp.ClassStyle |= NativeMethods.CS_DROPSHADOW;
 
                 }
 

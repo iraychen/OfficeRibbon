@@ -2532,7 +2532,7 @@ namespace System.Windows.Forms
 
             if (e.Ribbon.ActualBorderMode == RibbonWindowMode.NonClientAreaGlass)
             {
-                WinApi.DrawTextOnGlass(e.Graphics, f.Text, SystemFonts.CaptionFont, captionBar, 10);
+                NativeMethods.DrawTextOnGlass(e.Graphics, f.Text, SystemFonts.CaptionFont, captionBar, 10);
             }
             else if (e.Ribbon.ActualBorderMode == RibbonWindowMode.NonClientAreaCustomDrawn)
             {
@@ -2540,8 +2540,8 @@ namespace System.Windows.Forms
 
             }
             //Console.WriteLine("capt " + DateTime.Now.Millisecond + e.ClipRectangle.ToString());
-            //WinApi.FillForGlass(e.Graphics, captionBar);
-            //WinApi.DrawTextOnGlass(e.Ribbon.Handle, f.Text, SystemFonts.CaptionFont, captionBar, 10);
+            //NativeMethods.FillForGlass(e.Graphics, captionBar);
+            //NativeMethods.DrawTextOnGlass(e.Ribbon.Handle, f.Text, SystemFonts.CaptionFont, captionBar, 10);
         }
 
         private GraphicsPath CreateQuickAccessPath(Point a, Point b, Point c, Point d, Point e, Rectangle bounds, int offsetx, int offsety, Ribbon ribbon)
@@ -3298,7 +3298,7 @@ namespace System.Windows.Forms
 
             if (e.Ribbon.ActualBorderMode == RibbonWindowMode.NonClientAreaGlass)
             {
-                WinApi.FillForGlass(e.Graphics, new Rectangle(0, 0, e.Ribbon.Width, e.Ribbon.CaptionBarSize + 1));
+                NativeMethods.FillForGlass(e.Graphics, new Rectangle(0, 0, e.Ribbon.Width, e.Ribbon.CaptionBarSize + 1));
             }
         }
 
@@ -3633,7 +3633,7 @@ namespace System.Windows.Forms
 
                 if (b is RibbonCaptionButton)
                 {
-                    if (WinApi.IsWindows) f = new Font(RibbonCaptionButton.WindowsIconsFont, f.Size);
+                    if (NativeMethods.IsWindows) f = new Font(RibbonCaptionButton.WindowsIconsFont, f.Size);
                     embedded = true;
                     foreColor = Theme.ColorTable.Arrow;
                 }

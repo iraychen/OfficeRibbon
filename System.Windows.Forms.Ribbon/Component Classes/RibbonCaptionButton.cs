@@ -45,7 +45,7 @@ namespace System.Windows.Forms
       /// <returns>Character to use with "Marlett" font in Windows, some other representative characters when in other O.S.</returns>
       public static string GetCharFor(CaptionButton type)
       {
-         if (WinApi.IsWindows)
+         if (NativeMethods.IsWindows)
          {
             switch (type)
             {

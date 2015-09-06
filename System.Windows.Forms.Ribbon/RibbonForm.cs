@@ -30,11 +30,11 @@ namespace System.Windows.Forms
 
         public RibbonForm()
         {
-           if (WinApi.IsWindows && !WinApi.IsGlassEnabled)
+           if (NativeMethods.IsWindows && !NativeMethods.IsGlassEnabled)
            {
               FormBorderStyle = FormBorderStyle.None;
               SetStyle(ControlStyles.ResizeRedraw, true);
-              SetStyle(ControlStyles.Opaque, WinApi.IsGlassEnabled);
+              SetStyle(ControlStyles.Opaque, NativeMethods.IsGlassEnabled);
               SetStyle(ControlStyles.AllPaintingInWmPaint, true);
               DoubleBuffered = true;
            }
@@ -71,7 +71,7 @@ namespace System.Windows.Forms
            get
            {
               CreateParams cp = base.CreateParams;
-              if (WinApi.IsWindows && !WinApi.IsGlassEnabled)
+              if (NativeMethods.IsWindows && !NativeMethods.IsGlassEnabled)
               {
                  cp.Style |= 0x20000 | 0x80000 | 0x40000; //WS_MINIMIZEBOX | WS_SYSMENU | WS_SIZEBOX;
                  //cp.ClassStyle |= 0x8 | 0x20000; //CS_DBLCLKS | CS_DROPSHADOW;

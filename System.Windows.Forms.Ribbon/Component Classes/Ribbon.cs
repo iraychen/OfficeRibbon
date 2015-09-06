@@ -399,7 +399,7 @@ namespace System.Windows.Forms
 
                 RibbonWindowMode actual = value;
 
-                if (value == RibbonWindowMode.NonClientAreaGlass && !WinApi.IsGlassEnabled)
+                if (value == RibbonWindowMode.NonClientAreaGlass && !NativeMethods.IsGlassEnabled)
                 {
                     actual = RibbonWindowMode.NonClientAreaCustomDrawn;
                 }
@@ -1774,9 +1774,9 @@ namespace System.Windows.Forms
 
             bool bypassed = false;
 
-            if (WinApi.IsWindows && (ActualBorderMode == RibbonWindowMode.NonClientAreaGlass || ActualBorderMode == RibbonWindowMode.NonClientAreaCustomDrawn))
+            if (NativeMethods.IsWindows && (ActualBorderMode == RibbonWindowMode.NonClientAreaGlass || ActualBorderMode == RibbonWindowMode.NonClientAreaCustomDrawn))
             {
-                if (m.Msg == WinApi.WM_NCHITTEST) //0x84
+                if (m.Msg == NativeMethods.WM_NCHITTEST) //0x84
                 {
                     Form f = FindForm();
                     Rectangle caption;
@@ -1794,7 +1794,7 @@ namespace System.Windows.Forms
                         caption = Rectangle.FromLTRB(0, 0, captionRight, CaptionBarSize);
                     }
 
-                    Point screenPoint = new Point(WinApi.LoWord((int)m.LParam), WinApi.HiWord((int)m.LParam));
+                    Point screenPoint = new Point(NativeMethods.LoWord((int)m.LParam), NativeMethods.HiWord((int)m.LParam));
                     Point ribbonPoint = PointToClient(screenPoint);
                     bool onCaptionButtons = false;
 
@@ -1809,7 +1809,7 @@ namespace System.Windows.Forms
                     {
                         //on the caption bar area
                         Point p = PointToScreen(screenPoint);
-                        WinApi.SendMessage(f.Handle, WinApi.WM_NCHITTEST, m.WParam, WinApi.MakeLParam(p.X, p.Y));
+                        NativeMethods.SendMessage(f.Handle, NativeMethods.WM_NCHITTEST, m.WParam, NativeMethods.MakeLParam(p.X, p.Y));
                         m.Result = new IntPtr(-1);
                         bypassed = true;
                         //Kevin - fix so when you mouse off the caption buttons onto the caption area
@@ -1838,7 +1838,7 @@ namespace System.Windows.Forms
         {
             try
             {
-                if (WinApi.IsWindows && Environment.OSVersion.Platform == PlatformID.Win32NT)
+                if (NativeMethods.IsWindows && Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                     g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
@@ -1901,8 +1901,8 @@ namespace System.Windows.Forms
                     PaintOn(g, clip);
                     g.Flush();
 
-                    WinApi.BitBlt(wndGraphics.GetHdc(), clip.X, clip.Y, clip.Width, clip.Height, g.GetHdc(), clip.X, clip.Y, WinApi.SRCCOPY);
-                    //WinApi.BitBlt(wndGraphics.GetHdc(), 0, 0, Width, Height, g.GetHdc(), 0, 0, WinApi.SRCCOPY);
+                    NativeMethods.BitBlt(wndGraphics.GetHdc(), clip.X, clip.Y, clip.Width, clip.Height, g.GetHdc(), clip.X, clip.Y, NativeMethods.SRCCOPY);
+                    //NativeMethods.BitBlt(wndGraphics.GetHdc(), 0, 0, Width, Height, g.GetHdc(), 0, 0, NativeMethods.SRCCOPY);
                 }
 
                 //wndGraphics.DrawImage(bmp, Point.Empty);

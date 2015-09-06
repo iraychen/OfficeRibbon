@@ -240,7 +240,7 @@ namespace System.Windows.Forms
         public Color ToolTipContentSouth = Color.FromArgb(206, 220, 241);// SystemColors.MenuBar;// FromHex("#E7F2FF");
         public Color ToolTipDarkBorder = Color.DarkGray;// Color.FromArgb(51, FromHex("#15428B"));
         public Color ToolTipLightBorder = Color.FromArgb(102, Color.White);
-        public Color ToolTipText = System.Windows.Forms.RibbonHelpers.WinApi.IsVista ? SystemColors.InactiveCaptionText : FromHexStr("#15428B");  // in XP SystemColors.InactiveCaptionText is hardly readable
+        public Color ToolTipText = System.Windows.Forms.RibbonHelpers.NativeMethods.IsVista ? SystemColors.InactiveCaptionText : FromHexStr("#15428B");  // in XP SystemColors.InactiveCaptionText is hardly readable
 
         public Color ToolStripItemTextPressed = FromHexStr("#444444");
         public Color ToolStripItemTextSelected = FromHexStr("#444444");

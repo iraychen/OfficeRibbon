@@ -238,7 +238,7 @@ namespace System.Windows.Forms
                   return;
                case 0x202: //WM_LBUTTONUP
                case 0x205: //WM_RBUTTONUP
-                  HitOn(WinApi.LoWord((int)m.LParam), WinApi.HiWord((int)m.LParam));
+                  HitOn(NativeMethods.LoWord((int)m.LParam), NativeMethods.HiWord((int)m.LParam));
                   return;
                default:
                   break;

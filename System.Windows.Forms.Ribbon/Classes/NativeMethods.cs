@@ -222,26 +222,26 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <param name="threadId"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        internal static extern int SetWindowsHookEx(int idHook, GlobalHook.HookProcCallBack lpfn, IntPtr hInstance, int threadId);
+        internal static extern IntPtr SetWindowsHookEx(int idHook, GlobalHook.HookProcCallBack lpfn, IntPtr hInstance, int threadId);
 
         /// <summary>
         /// Removes a hook procedure installed in a hook chain by the SetWindowsHookEx function. 
         /// </summary>
-        /// <param name="idHook"></param>
+        /// <param name="hHook"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        internal static extern bool UnhookWindowsHookEx(int idHook);
+        internal static extern bool UnhookWindowsHookEx(IntPtr hHook);
 
         /// <summary>
         /// Passes the hook information to the next hook procedure in the current hook chain
         /// </summary>
-        /// <param name="idHook"></param>
+        /// <param name="hHook"></param>
         /// <param name="nCode"></param>
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        internal static extern int CallNextHookEx(int idHook, int nCode, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr CallNextHookEx(IntPtr hHook, int nCode, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// This function retrieves a handle to a display device context (DC) for the client area of the specified window.

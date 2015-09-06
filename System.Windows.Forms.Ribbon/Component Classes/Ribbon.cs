@@ -196,6 +196,7 @@ namespace System.Windows.Forms
                 _MinimizeButton.Dispose();
                 _MaximizeRestoreButton.Dispose();
                 _CloseButton.Dispose();
+                if (_sensor != null) _sensor.Dispose();
 
                 RibbonPopupManager.PopupRegistered -= OnPopupRegistered;
                 RibbonPopupManager.PopupUnRegistered -= OnPopupUnregistered;

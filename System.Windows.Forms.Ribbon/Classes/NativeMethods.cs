@@ -566,7 +566,7 @@ namespace System.Windows.Forms.RibbonHelpers
         public struct NCCALCSIZE_PARAMS
         {
             public RECT rect0, rect1, rect2;                    // Can't use an array here so simulate one
-            public IntPtr lppos;
+            internal IntPtr lppos;
         }
 
         /// <summary>

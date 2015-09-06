@@ -196,7 +196,11 @@ namespace System.Windows.Forms
                 _MinimizeButton.Dispose();
                 _MaximizeRestoreButton.Dispose();
                 _CloseButton.Dispose();
-                if (_sensor != null) _sensor.Dispose();
+                if (_sensor != null)
+                { 
+                    _sensor.Dispose();
+                    _sensor = null;
+                }
 
                 RibbonPopupManager.PopupRegistered -= OnPopupRegistered;
                 RibbonPopupManager.PopupUnRegistered -= OnPopupUnregistered;
@@ -207,11 +211,6 @@ namespace System.Windows.Forms
             DisposeHooks();
 
             base.Dispose(disposing);
-        }
-
-        ~Ribbon()
-        {
-            Dispose(false);
         }
 
         private void DisposeHooks()

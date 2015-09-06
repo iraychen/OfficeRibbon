@@ -46,14 +46,6 @@ namespace System.Windows.Forms
          Current = this;
       }
 
-      ~RibbonDesigner()
-      {
-         if (Current == this)
-         {
-            Current = null;
-         }
-      }
-
       #endregion
 
       #region Properties
@@ -501,5 +493,17 @@ namespace System.Windows.Forms
       }
 
       #endregion
+
+      protected override void Dispose(bool disposing)
+      {
+          base.Dispose(disposing);
+          if (disposing == false)
+          {
+              if (Current == this)
+              {
+                  Current = null;
+              }
+          }
+      }
    }
 }

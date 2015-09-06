@@ -61,9 +61,9 @@ namespace System.Windows.Forms
 		/// <param name="description">Description for the menuitem</param>
 		public RibbonDescriptionMenuItem(Image image, string text, string description)
 		{
-			Image = image;
-			Text = text;
-			Description = description;
+			base.Image = image;
+			base.Text = text;
+			_description = description;
 		}
 
 		#endregion

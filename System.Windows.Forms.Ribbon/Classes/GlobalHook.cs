@@ -125,10 +125,8 @@ namespace System.Windows.Forms.RibbonHelpers
 
         ~GlobalHook()
         {
-            if (Handle != IntPtr.Zero)
-            {
-                Unhook();
-            }
+            // Finalizer calls Dispose(false)
+            Dispose(false);
         }
 
         #endregion
@@ -498,12 +496,22 @@ namespace System.Windows.Forms.RibbonHelpers
 
         public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+            }
+            // free native resources
             if (Handle != IntPtr.Zero)
             {
                 Unhook();
             }
         }
-
         #endregion
     }
 }

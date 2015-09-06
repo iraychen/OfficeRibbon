@@ -454,8 +454,9 @@ namespace System.Windows.Forms.RibbonHelpers
             //_hHook = NativeMethods.SetWindowsHookEx(htype, _HookProc, Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().GetModules()[0]), 0);
             _hHook = NativeMethods.SetWindowsHookEx(htype, _HookProc, System.Diagnostics.Process.GetCurrentProcess().MainModule.BaseAddress, 0);
             
-            /// Error check
-            if (Handle == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
+            // Error check
+            int lastError = Marshal.GetLastWin32Error();
+            if (IntPtr.Equals(Handle, IntPtr.Zero)) throw new Win32Exception(lastError);
         }
 
         /// <summary>

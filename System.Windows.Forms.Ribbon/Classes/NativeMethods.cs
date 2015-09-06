@@ -298,7 +298,7 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <param name="pRect"></param>
         /// <returns></returns>
         [DllImport("UxTheme.dll")]
-        internal static extern int DrawThemeText(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags1, int dwFlags2, ref RECT pRect);
+        internal static extern int DrawThemeText(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, [MarshalAs(UnmanagedType.LPWStr)] string text, int iCharCount, int dwFlags1, int dwFlags2, ref RECT pRect);
 
         /// <summary>
         /// The CreateDIBSection function creates a DIB that applications can write to directly.

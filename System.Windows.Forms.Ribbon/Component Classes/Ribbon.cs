@@ -18,6 +18,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms.RibbonHelpers;
+using System.Security.Permissions;
 
 namespace System.Windows.Forms
 {
@@ -1769,6 +1770,7 @@ namespace System.Windows.Forms
             OnOrbClicked(EventArgs.Empty);
         }
 
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
 

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using System.Text;
 using System.Windows.Forms.RibbonHelpers;
 
@@ -58,6 +59,7 @@ namespace System.Windows.Forms
         /// Overrides the WndProc funciton
         /// </summary>
         /// <param name="m"></param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
            if (!Helper.WndProc(ref m))

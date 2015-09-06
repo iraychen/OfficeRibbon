@@ -266,7 +266,7 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <param name="state"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        internal static extern int ReleaseDC(IntPtr hdc, int state);
+        internal static extern int ReleaseDC(IntPtr hdc, IntPtr state);
 
         /// <summary>
         /// Draws text using the color and font defined by the visual style. Extends DrawThemeText by allowing additional text format options.
@@ -311,7 +311,7 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <param name="dwOffset"></param>
         /// <returns></returns>
         [DllImport("gdi32.dll")]
-        private static extern IntPtr CreateDIBSection(IntPtr hdc, ref BITMAPINFO pbmi, uint iUsage, int ppvBits, IntPtr hSection, uint dwOffset);
+        private static extern IntPtr CreateDIBSection(IntPtr hdc, ref BITMAPINFO pbmi, uint iUsage, IntPtr ppvBits, IntPtr hSection, uint dwOffset);
 
         /// <summary>
         /// This function transfers pixels from a specified source rectangle to a specified destination rectangle, altering the pixels according to the selected raster operation (ROP) code.
@@ -739,7 +739,7 @@ namespace System.Windows.Forms.RibbonHelpers
             dib.bmiHeader.biCompression = BI_RGB;
             if (!(SaveDC(Memdc) == 0))
             {
-                bitmap = CreateDIBSection(Memdc, ref dib, DIB_RGB_COLORS, 0, IntPtr.Zero, 0);
+                bitmap = CreateDIBSection(Memdc, ref dib, DIB_RGB_COLORS, IntPtr.Zero, IntPtr.Zero, 0);
                 if (!(bitmap == IntPtr.Zero))
                 {
                     bitmapOld = SelectObject(Memdc, bitmap);
@@ -752,7 +752,7 @@ namespace System.Windows.Forms.RibbonHelpers
 
                 DeleteObject(bitmap);
 
-                ReleaseDC(Memdc, -1);
+                ReleaseDC(Memdc, new IntPtr(-1));
                 DeleteDC(Memdc);
 
 
@@ -794,7 +794,7 @@ namespace System.Windows.Forms.RibbonHelpers
                     dib.bmiHeader.biCompression = BI_RGB;
                     if (!(SaveDC(Memdc) == 0))
                     {
-                        bitmap = CreateDIBSection(Memdc, ref dib, DIB_RGB_COLORS, 0, IntPtr.Zero, 0);   // Create a 32-bit bmp for use in offscreen drawing when glass is on
+                        bitmap = CreateDIBSection(Memdc, ref dib, DIB_RGB_COLORS, IntPtr.Zero, IntPtr.Zero, 0);   // Create a 32-bit bmp for use in offscreen drawing when glass is on
                         if (!(bitmap == IntPtr.Zero))
                         {
                             bitmapOld = SelectObject(Memdc, bitmap);
@@ -830,7 +830,7 @@ namespace System.Windows.Forms.RibbonHelpers
                             DeleteObject(bitmap);
                             DeleteObject(hFont);
 
-                            ReleaseDC(Memdc, -1);
+                            ReleaseDC(Memdc, new IntPtr(-1));
                             DeleteDC(Memdc);
                         }
                         else

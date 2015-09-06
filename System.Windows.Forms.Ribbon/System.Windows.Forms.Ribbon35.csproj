@@ -74,6 +74,7 @@
     <Compile Include="Classes\Interfaces\IRibbonForm.cs" />
     <Compile Include="Classes\Interfaces\IRibbonToolTip.cs" />
     <Compile Include="Classes\Interfaces\IScrollableRibbonItem.cs" />
+    <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\Renderers\Color Tables\RibbonProfesionalRendererColorTableBlue.cs" />
     <Compile Include="Classes\Renderers\Color Tables\RibbonProfesionalRendererColorTableGreen.cs" />
     <Compile Include="Classes\Renderers\Color Tables\RibbonProfesionalRendererColorTableHalloween.cs" />
@@ -232,7 +233,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\Set.cs" />
-    <Compile Include="Classes\WinApi.cs" />
     <Compile Include="Classes\GlobalHook.cs" />
   </ItemGroup>
   <ItemGroup>

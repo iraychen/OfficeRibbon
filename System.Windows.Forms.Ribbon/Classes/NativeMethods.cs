@@ -208,10 +208,10 @@ namespace System.Windows.Forms.RibbonHelpers
         internal static extern short GetKeyState(int vKey);
 
         [DllImport("user32.dll")]
-        public static extern int GetWindowRect(IntPtr hwnd, ref RECT lpRect);
+        internal static extern int GetWindowRect(IntPtr hwnd, ref RECT lpRect);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetDCEx(IntPtr hwnd, IntPtr hrgnclip, uint fdwOptions);
+        internal static extern IntPtr GetDCEx(IntPtr hwnd, IntPtr hrgnclip, uint fdwOptions);
 
         /// <summary>
         /// Installs an application-defined hook procedure into a hook chain
@@ -411,7 +411,7 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <param name="lParam">second message parameter</param>
         /// <returns>none</returns>
         [DllImport("user32.dll")]
-        public static extern bool PostMessage(IntPtr hWnd, Int32 msg, Int32 wParam, Int32 lParam);
+        internal static extern bool PostMessage(IntPtr hWnd, Int32 msg, Int32 wParam, Int32 lParam);
 
         #endregion
 

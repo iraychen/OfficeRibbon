@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace System.Windows.Forms
 {
-	public class RibbonToolTipRenderEventArgs : RibbonRenderEventArgs
+	public class RibbonToolTipRenderEventArgs : RibbonRenderEventArgs, IDisposable
 	{
 		private StringFormat _format;
 		private Font _font = new Font("Arial", 8);
@@ -91,5 +91,24 @@ namespace System.Windows.Forms
 			get { return _image; }
 			set { _image = value; }
 		}
-	}
+
+        public void Dispose()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose managed resource
+                if (_font != null)
+                {
+                    _font.Dispose();
+                    _font = null;
+                }
+            }
+            // dispose native resources
+        }
+    }
 }

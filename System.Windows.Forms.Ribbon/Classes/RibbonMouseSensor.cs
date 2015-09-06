@@ -811,10 +811,20 @@ namespace System.Windows.Forms
 
 		public void Dispose()
 		{
-			_disposed = true;
-			RemoveHandlers();
-		}
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                _disposed = true;
+                RemoveHandlers();
+            }
+            // free native resources
+        }
 		#endregion
 	}
 }

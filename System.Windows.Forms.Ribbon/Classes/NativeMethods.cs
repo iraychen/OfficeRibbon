@@ -411,7 +411,7 @@ namespace System.Windows.Forms.RibbonHelpers
         /// <param name="lParam">second message parameter</param>
         /// <returns>none</returns>
         [DllImport("user32.dll")]
-        internal static extern bool PostMessage(IntPtr hWnd, Int32 msg, Int32 wParam, Int32 lParam);
+        internal static extern bool PostMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         #endregion
 

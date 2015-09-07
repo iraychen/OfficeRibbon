@@ -37,7 +37,7 @@ namespace System.Windows.Forms
       public RibbonOrbMenuItem(string text)
          : this()
       {
-         Text = text;
+         base.Text = text;
       }
 
 

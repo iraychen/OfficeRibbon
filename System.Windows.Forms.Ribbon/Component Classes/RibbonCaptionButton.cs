@@ -149,7 +149,7 @@ namespace System.Windows.Forms
       /// <param name="buttonType"></param>
       internal void SetCaptionButtonType(CaptionButton buttonType)
       {
-         Text = GetCharFor(buttonType);
+         base.Text = GetCharFor(buttonType);
          _captionButtonType = buttonType;
       }
 

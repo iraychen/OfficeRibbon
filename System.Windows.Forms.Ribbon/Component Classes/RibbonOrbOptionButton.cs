@@ -30,7 +30,7 @@ namespace System.Windows.Forms
         public RibbonOrbOptionButton(string text)
             : this()
         {
-            Text = text;
+            base.Text = text;
         }
 
         #endregion

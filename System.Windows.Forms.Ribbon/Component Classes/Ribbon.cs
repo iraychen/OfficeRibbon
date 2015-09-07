@@ -202,6 +202,11 @@ namespace System.Windows.Forms
                     _sensor.Dispose();
                     _sensor = null;
                 }
+                if (_RibbonItemFont != null)
+                {
+                    _RibbonItemFont.Dispose();
+                    _RibbonItemFont = null;
+                }
 
                 RibbonPopupManager.PopupRegistered -= OnPopupRegistered;
                 RibbonPopupManager.PopupUnRegistered -= OnPopupUnregistered;

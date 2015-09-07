@@ -89,7 +89,7 @@ namespace System.Windows.Forms
             _dropDownItems = new RibbonItemCollection();
             _dropDownArrowSize = new Size(5, 3);
             _dropDownMargin = new Padding(6);
-            Image = CreateImage(32);
+            base.Image = CreateImage(32);
             SmallImage = CreateImage(16);
             _iconsBar = true;
         }

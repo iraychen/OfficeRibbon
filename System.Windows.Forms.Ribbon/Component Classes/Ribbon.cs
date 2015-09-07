@@ -89,8 +89,7 @@ namespace System.Windows.Forms
         private bool _CaptionButtonsVisible;
         private GlobalHook _mouseHook;
         private GlobalHook _keyboardHook;
-        private Font _RibbonItemFont = new Font("Trebuchet MS", 9);
-        private Font _RibbonTabFont = new Font("Trebuchet MS", 9);
+        private Font _RibbonTabFont;
 
         internal RibbonItem ActiveTextBox; //tracks the current active textbox so we can hide it when you click off it
         #endregion
@@ -201,11 +200,6 @@ namespace System.Windows.Forms
                 { 
                     _sensor.Dispose();
                     _sensor = null;
-                }
-                if (_RibbonItemFont != null)
-                {
-                    _RibbonItemFont.Dispose();
-                    _RibbonItemFont = null;
                 }
 
                 RibbonPopupManager.PopupRegistered -= OnPopupRegistered;
@@ -1126,17 +1120,6 @@ namespace System.Windows.Forms
         private string cr { get { return "Professional Ribbon\n\n2009 Jos?Manuel Menéndez Poo\nwww.menendezpoo.com"; } }
         #endregion
 
-        ///// <summary>
-        ///// Gets or sets the Font associated with Ribbon Items.
-        ///// </summary>
-        //[DefaultValue(null)]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        //public Font RibbonItemFont
-        //{
-        //    get { return _RibbonItemFont; }
-        //    set { _RibbonItemFont = value;}
-        //}
-
 
         /// <summary>
         /// Gets or sets the Font associated with Ribbon tabs and the ORB.
@@ -1145,8 +1128,29 @@ namespace System.Windows.Forms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Font RibbonTabFont
         {
-            get { return _RibbonTabFont; }
+            get { 
+                if (_RibbonTabFont != null) return _RibbonTabFont;
+                return null;
+            }
             set { _RibbonTabFont = value; }
+        }
+
+        /// <summary>
+        /// Returns true if the font has changed; otherwise, returns false. 
+        /// The designer writes code to the form only if true is returned.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void ResetRibbonTabFont() {
+            RibbonTabFont = null;
+        }
+
+        /// <summary>
+        /// Returns true if the font should be persisted in code gen.
+        /// </summary>
+        /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeRibbonTabFont() {
+            return _RibbonTabFont != null;
         }
 
         #endregion
